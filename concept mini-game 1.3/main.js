@@ -148,18 +148,18 @@ const config = {
   function update() {
     // Bewegingen + animaties voor het bewegen van de speler
     if(gameState.cursors.right.isDown) {
-      gameState.player.setVelocityX(150);
+      gameState.player.setVelocityX(100);
       gameState.player.anims.play('run', true)
       gameState.player.flipX = false;
     }else if(gameState.cursors.left.isDown) {
-      gameState.player.setVelocityX(-150);
+      gameState.player.setVelocityX(-100);
       gameState.player.anims.play('run', true);
       gameState.player.flipX = true;
     }else if(gameState.cursors.up.isDown) {
-      gameState.player.setVelocityY(-150);
+      gameState.player.setVelocityY(-100);
       gameState.player.anims.play('run', true);
     }else if(gameState.cursors.down.isDown) {
-      gameState.player.setVelocityY(150);
+      gameState.player.setVelocityY(100);
       gameState.player.anims.play('run', true);
     } else {
       gameState.player.setVelocityY(0);
