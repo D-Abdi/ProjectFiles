@@ -140,26 +140,41 @@ class MG1 extends Phaser.Scene {
   }
 
    update() {
-    // Bewegingen + animaties voor het bewegen van de speler
-    if(gameState.cursors.right.isDown) {
-      gameState.player.setVelocityX(100);
-      gameState.player.anims.play('run', true)
-      gameState.player.flipX = false;
-    }else if(gameState.cursors.left.isDown) {
-      gameState.player.setVelocityX(-100);
-      gameState.player.anims.play('run', true);
+    const speed = 160;
+
+    gameState.player.setVelocity(0);
+
+    // Horizontale beweging
+    if (gameState.cursors.left.isDown) {
+      gameState.player.body.setVelocityX(-speed);
       gameState.player.flipX = true;
-    }else if(gameState.cursors.up.isDown) {
-      gameState.player.setVelocityY(-100);
-      gameState.player.anims.play('run', true);
-    }else if(gameState.cursors.down.isDown) {
-      gameState.player.setVelocityY(100);
-      gameState.player.anims.play('run', true);
-    } else {
-      gameState.player.setVelocityY(0);
-      gameState.player.setVelocityX(0);
-      gameState.player.anims.play('idle', true);
+    }else if (gameState.cursors.right.isDown) {
+      gameState.player.body.setVelocityX(speed);
+      gameState.player.flipX = false;
     }
+
+    // Verticale beweging
+    if (gameState.cursors.up.isDown) {
+      gameState.player.body.setVelocityY(-speed);
+    }else if (gameState.cursors.down.isDown) {
+      gameState.player.body.setVelocityY(speed);
+    }
+     
+     // Normalize de snelheid van de speler en scale de snelheid altijd met de variabele die eerder is gegeven
+    gameState.player.body.velocity.normalize().scale(speed);
+
+    // Voeg animaties toe
+    if (gameState.cursors.left.isDown) {
+       gameState.player.anims.play('run', true);
+    }else if (gameState.cursors.right.isDown) {
+       gameState.player.anims.play('run', true);
+    }else if (gameState.cursors.up.isDown) {
+       gameState.player.anims.play('run', true);
+    }else if (gameState.cursors.down.isDown) {
+       gameState.player.anims.play('run', true);
+    } else {
+       gameState.player.anims.play('idle', true);
+   }
   }
   
 }

@@ -199,60 +199,63 @@ class MG2 extends Phaser.Scene {
 
     // Maak enemies gevaarlijk
     this.physics.add.overlap(gameState.player, gameState.enemy[0], () => {
-        this.scene.restart();
+      gameState.player.x = 95;
+      gameState.player.y = 95;
         this.cameras.main.shake(50, .025, true)
     })
 
     this.physics.add.overlap(gameState.player, gameState.enemy[1], () => {
-        this.scene.restart();
+      gameState.player.x = 95;
+      gameState.player.y = 95;
         this.cameras.main.shake(50, .025, true)
     })    
 
     this.physics.add.overlap(gameState.player, gameState.enemy[2], () => {
-        this.scene.restart();
-        this.cameras.main.shake(50, .025, true)
+      gameState.player.x = 95;
+      gameState.player.y = 95;
+      this.cameras.main.shake(50, .025, true)
     })
     
     this.physics.add.overlap(gameState.player, gameState.enemy[3], () => {
-        gameState.player.x = 410;
-        gameState.player.y = 130;
-        this.cameras.main.shake(50, .025, true)
+      gameState.player.x = 410;
+      gameState.player.y = 130;
+      this.cameras.main.shake(50, .025, true)
     }) 
 
     this.physics.add.overlap(gameState.player, gameState.enemy[4], () => {
-        gameState.player.x = 410;
-        gameState.player.y = 130;
-        this.cameras.main.shake(50, .025, true)
+      gameState.player.x = 410;
+      gameState.player.y = 130;
+      this.cameras.main.shake(50, .025, true)
     })
     
     this.physics.add.overlap(gameState.player, gameState.enemy[5], () => {
-        gameState.player.x = 410;
-        gameState.player.y = 130;
-        this.cameras.main.shake(50, .025, true)
+      gameState.player.x = 410;
+      gameState.player.y = 130;
+      this.cameras.main.shake(50, .025, true)
     })      
 
     this.physics.add.overlap(gameState.player, gameState.enemy[6], () => {
-        gameState.player.x = 410;
-        gameState.player.y = 130;
-        this.cameras.main.shake(50, .025, true)
+      gameState.player.x = 410;
+      gameState.player.y = 130;
+      this.cameras.main.shake(50, .025, true)
     })
 
     this.physics.add.overlap(gameState.player, gameState.enemy[7], () => {
-        gameState.player.x = 200;
-        gameState.player.y = 270;
-        this.cameras.main.shake(50, .025, true)
+      gameState.player.x = 200;
+      gameState.player.y = 270;
+      this.cameras.main.shake(50, .025, true)
     })
  
     this.physics.add.overlap(gameState.player, gameState.enemy[8], () => {
-        gameState.player.x = 200;
-        gameState.player.y = 270;
-        this.cameras.main.shake(50, .025, true)
+      gameState.player.x = 200;
+      gameState.player.y = 270;
+      this.cameras.main.shake(50, .025, true)
     })
 
     this.physics.add.overlap(gameState.player, gameState.enemy[9], () => {
-        gameState.player.x = 200;
-        gameState.player.y = 270;
-        this.cameras.main.shake(50, .025, true)
+      gameState.player.x = 200;
+      gameState.player.y = 270;
+      this.cameras.main.shake(50, .025, true)
     })
     
     // Win condition maken
@@ -260,36 +263,52 @@ class MG2 extends Phaser.Scene {
     door.visible = false;
 
     this.physics.add.overlap(gameState.player, door, () => {
-        this.cameras.main.fade(1100, 255, 255, 255, false, function(camera, progress) {
-            if(progress > 0.9) {
-               this.scene.restart();
-            }
-        })
+      this.cameras.main.fade(1100, 255, 255, 255, false, function(camera, progress) {
+          if(progress > 0.9) {
+             this.scene.restart();
+          }
+      })
     })
     }
     
 
     update(){
-    // Bewegingen + animaties voor het bewegen van de speler
-    if(gameState.cursors.right.isDown) {
-      gameState.player.setVelocityX(100);
-      gameState.player.anims.play('run', true)
-      gameState.player.flipX = false;
-    }else if(gameState.cursors.left.isDown) {
-      gameState.player.setVelocityX(-100);
-      gameState.player.anims.play('run', true);
-      gameState.player.flipX = true;
-    }else if(gameState.cursors.up.isDown) {
-      gameState.player.setVelocityY(-100);
-      gameState.player.anims.play('run', true);
-    }else if(gameState.cursors.down.isDown) {
-      gameState.player.setVelocityY(100);
-      gameState.player.anims.play('run', true);
-    } else {
-      gameState.player.setVelocityY(0);
-      gameState.player.setVelocityX(0);
-      gameState.player.anims.play('idle', true);
-    }
+      const speed = 160;
+      const prevVelocity = gameState.player.body.velocity.clone();
+  
+      gameState.player.setVelocity(0);
+  
+      // Horizontale beweging
+      if (gameState.cursors.left.isDown) {
+        gameState.player.body.setVelocityX(-speed);
+        gameState.player.flipX = true;
+      }else if (gameState.cursors.right.isDown) {
+        gameState.player.body.setVelocityX(speed);
+        gameState.player.flipX = false;
+      }
+  
+      // Verticale beweging
+      if (gameState.cursors.up.isDown) {
+        gameState.player.body.setVelocityY(-speed);
+      }else if (gameState.cursors.down.isDown) {
+        gameState.player.body.setVelocityY(speed);
+      }
+       
+       // Normalize de snelheid van de speler en scale de snelheid altijd met de variabele die eerder is gegeven
+      gameState.player.body.velocity.normalize().scale(speed);
+  
+      // Voeg animaties toe
+      if (gameState.cursors.left.isDown) {
+         gameState.player.anims.play('run', true);
+      }else if (gameState.cursors.right.isDown) {
+         gameState.player.anims.play('run', true);
+      }else if (gameState.cursors.up.isDown) {
+         gameState.player.anims.play('run', true);
+      }else if (gameState.cursors.down.isDown) {
+         gameState.player.anims.play('run', true);
+      } else {
+         gameState.player.anims.play('idle', true);
+     }
 }
 
 }
