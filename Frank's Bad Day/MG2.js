@@ -17,12 +17,12 @@ class MG2 extends Phaser.Scene {
 
     const tileset2 = map2.addTilesetImage('RPGmap', 'tiles2')
 
-    const worldLayer2 = map2.createStaticLayer('Blocked', tileset2, 0, 0);
+    const worldLayer2 = map2.createStaticLayer('Blocked', tileset2, 50, 50).setScale(1.8)
 
     worldLayer2.setCollisionByProperty({ collides: true });
     
     // Speler aanmaken
-    gameState.player = this.physics.add.sprite(95, 95, 'codey').setScale(.225)
+    gameState.player = this.physics.add.sprite(220, 230, 'codey').setScale(.4)
     gameState.player.setCollideWorldBounds(true);
     gameState.cursors = this.input.keyboard.createCursorKeys();
 
@@ -51,20 +51,20 @@ class MG2 extends Phaser.Scene {
       });
       
     // Enemies toevoegen
-    gameState.enemy[0] = this.physics.add.sprite(75, 175, 'snowman').setScale(.3)
+    gameState.enemy[0] = this.physics.add.sprite(175, 365, 'snowman').setScale(.6)
 
-    gameState.enemy[1] = this.physics.add.sprite(275, 95, 'snowman').setScale(.3)
-    gameState.enemy[2] = this.physics.add.sprite(220, 145, 'snowman').setScale(.3)
+    gameState.enemy[1] = this.physics.add.sprite(325, 225, 'snowman').setScale(.6)
+    gameState.enemy[2] = this.physics.add.sprite(700, 310, 'snowman').setScale(.6)
 
-    gameState.enemy[3] = this.physics.add.sprite(220, 190, 'snowman').setScale(.3) 
-    gameState.enemy[4] = this.physics.add.sprite(420, 225, 'snowman').setScale(.3)
+    gameState.enemy[3] = this.physics.add.sprite(435, 395, 'snowman').setScale(.6) 
+    gameState.enemy[4] = this.physics.add.sprite(840, 455, 'snowman').setScale(.6)
 
-    gameState.enemy[5] = this.physics.add.sprite(80, 225, 'snowman').setScale(.3) 
-    gameState.enemy[6] = this.physics.add.sprite(110, 305, 'snowman').setScale(.3)
+    gameState.enemy[5] = this.physics.add.sprite(190, 450, 'snowman').setScale(.6) 
+    gameState.enemy[6] = this.physics.add.sprite(250, 600, 'snowman').setScale(.6)
 
-    gameState.enemy[7] = this.physics.add.sprite(255, 305, 'snowman').setScale(.3)
-    gameState.enemy[8] = this.physics.add.sprite(305, 270, 'snowman').setScale(.3)
-    gameState.enemy[9] = this.physics.add.sprite(355, 305, 'snowman').setScale(.3)
+    gameState.enemy[7] = this.physics.add.sprite(520, 600, 'snowman').setScale(.6)
+    gameState.enemy[8] = this.physics.add.sprite(620, 535, 'snowman').setScale(.6)
+    gameState.enemy[9] = this.physics.add.sprite(720, 600, 'snowman').setScale(.6)
 
     // Sneeuwman animaties
     this.anims.create({
@@ -89,7 +89,7 @@ class MG2 extends Phaser.Scene {
     // Tweens Toevoegen
     let tween0 = this.tweens.add({
         targets: gameState.enemy[0],
-        x: 180,
+        x: 375,
         duration: 2000,
         yoyo: true,
         repeat: -1,
@@ -100,7 +100,7 @@ class MG2 extends Phaser.Scene {
 
     let tween1 = this.tweens.add({
         targets: gameState.enemy[1],
-        x: 155,
+        x: 550,
         duration: 2000,
         yoyo: true,
         repeat: -1,
@@ -111,7 +111,7 @@ class MG2 extends Phaser.Scene {
     
     let tween2 = this.tweens.add({
         targets: gameState.enemy[2],
-        x: 350,
+        x: 435,
         duration: 2000,
         yoyo: true,
         repeat: -1,
@@ -122,8 +122,8 @@ class MG2 extends Phaser.Scene {
     
     let tween3 = this.tweens.add({
         targets: gameState.enemy[3],
-        x: 430,
-        duration: 2000,
+        x: 840,
+        duration: 2500,
         yoyo: true,
         repeat: -1,
         onYoyo: function () {
@@ -133,8 +133,8 @@ class MG2 extends Phaser.Scene {
     
     let tween4 = this.tweens.add({
         targets: gameState.enemy[4],
-        x: 220,
-        duration: 2000,
+        x: 435,
+        duration: 2500,
         yoyo: true,
         repeat: -1,
         onYoyo: function () {
@@ -144,7 +144,7 @@ class MG2 extends Phaser.Scene {
     
     let tween5 = this.tweens.add({
         targets: gameState.enemy[5],
-        y: 305,
+        y: 600,
         duration: 2000,
         yoyo: true,
         repeat: -1,
@@ -155,7 +155,7 @@ class MG2 extends Phaser.Scene {
 
     let tween6 = this.tweens.add({
         targets: gameState.enemy[6],
-        y: 225,
+        y: 450,
         duration: 2000,
         yoyo: true,
         repeat: -1,
@@ -166,7 +166,7 @@ class MG2 extends Phaser.Scene {
 
     let tween7 = this.tweens.add({
         targets: gameState.enemy[7],
-        y: 270,
+        y: 535,
         duration: 1000,
         yoyo: true,
         repeat: -1,
@@ -177,7 +177,7 @@ class MG2 extends Phaser.Scene {
     
     let tween8 = this.tweens.add({
         targets: gameState.enemy[8],
-        y: 305,
+        y: 600,
         duration: 1000,
         yoyo: true,
         repeat: -1,
@@ -188,7 +188,7 @@ class MG2 extends Phaser.Scene {
 
     let tween9 = this.tweens.add({
         targets: gameState.enemy[9],
-        y: 270,
+        y: 535,
         duration: 1000,
         yoyo: true,
         repeat: -1,
@@ -199,73 +199,74 @@ class MG2 extends Phaser.Scene {
 
     // Maak enemies gevaarlijk
     this.physics.add.overlap(gameState.player, gameState.enemy[0], () => {
-      gameState.player.x = 95;
-      gameState.player.y = 95;
+      gameState.player.x = 220;
+      gameState.player.y = 230;
         this.cameras.main.shake(50, .025, true)
     })
 
     this.physics.add.overlap(gameState.player, gameState.enemy[1], () => {
-      gameState.player.x = 95;
-      gameState.player.y = 95;
+      gameState.player.x = 220;
+      gameState.player.y = 230;
         this.cameras.main.shake(50, .025, true)
     })    
 
     this.physics.add.overlap(gameState.player, gameState.enemy[2], () => {
-      gameState.player.x = 95;
-      gameState.player.y = 95;
+      gameState.player.x = 220;
+      gameState.player.y = 230;
       this.cameras.main.shake(50, .025, true)
     })
     
     this.physics.add.overlap(gameState.player, gameState.enemy[3], () => {
-      gameState.player.x = 410;
-      gameState.player.y = 130;
+      gameState.player.x = 800;
+      gameState.player.y = 300;
       this.cameras.main.shake(50, .025, true)
     }) 
 
     this.physics.add.overlap(gameState.player, gameState.enemy[4], () => {
-      gameState.player.x = 410;
-      gameState.player.y = 130;
+      gameState.player.x = 800;
+      gameState.player.y = 300;
       this.cameras.main.shake(50, .025, true)
     })
     
     this.physics.add.overlap(gameState.player, gameState.enemy[5], () => {
-      gameState.player.x = 410;
-      gameState.player.y = 130;
+      gameState.player.x = 800;
+      gameState.player.y = 300;
       this.cameras.main.shake(50, .025, true)
     })      
 
     this.physics.add.overlap(gameState.player, gameState.enemy[6], () => {
-      gameState.player.x = 410;
-      gameState.player.y = 130;
+      gameState.player.x = 800;
+      gameState.player.y = 300;
       this.cameras.main.shake(50, .025, true)
     })
 
     this.physics.add.overlap(gameState.player, gameState.enemy[7], () => {
-      gameState.player.x = 200;
-      gameState.player.y = 270;
+      gameState.player.x = 400;
+      gameState.player.y = 535;
       this.cameras.main.shake(50, .025, true)
     })
  
     this.physics.add.overlap(gameState.player, gameState.enemy[8], () => {
-      gameState.player.x = 200;
-      gameState.player.y = 270;
+      gameState.player.x = 400;
+      gameState.player.y = 535;
       this.cameras.main.shake(50, .025, true)
     })
 
     this.physics.add.overlap(gameState.player, gameState.enemy[9], () => {
-      gameState.player.x = 200;
-      gameState.player.y = 270;
+      gameState.player.x = 400;
+      gameState.player.y = 535;
       this.cameras.main.shake(50, .025, true)
     })
     
     // Win condition maken
-    let door = this.physics.add.sprite(455, 290, 'door').setScale(.045)
+    let door = this.physics.add.sprite(860, 570, 'door').setScale(.07)
     door.visible = false;
 
     this.physics.add.overlap(gameState.player, door, () => {
       this.cameras.main.fade(1100, 255, 255, 255, false, function(camera, progress) {
           if(progress > 0.9) {
-             this.scene.restart();
+            this.scene.stop('MG2')
+            this.scene.start('MG3')
           }
       })
     })

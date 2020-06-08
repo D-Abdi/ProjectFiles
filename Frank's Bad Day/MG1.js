@@ -29,43 +29,41 @@ class MG1 extends Phaser.Scene {
 
     const tileset = map.addTilesetImage('RPGmap', 'tiles')
 
-    const worldLayer = map.createStaticLayer('Blocked', tileset, 0, 0);
-    const belowLayer = map.createStaticLayer('UnBlocked', tileset, 0, 0);
+    const worldLayer = map.createStaticLayer('Blocked', tileset, 50, 20).setScale(1.8);
+    const belowLayer = map.createStaticLayer('UnBlocked', tileset, 50, 20).setScale(1.8);
     
 
     worldLayer.setCollisionByProperty({ collides: true });
 
-    gameState.player = this.physics.add.sprite(220, 200, 'codey').setScale(.225)
+    gameState.player = this.physics.add.sprite(500, 400, 'codey').setScale(.4)
     gameState.player.setCollideWorldBounds(true);
     gameState.cursors = this.input.keyboard.createCursorKeys();
 
     this.physics.add.collider(gameState.player, worldLayer)
-    //
-    // minigame 1.0 code
 
     // Voeg vereiste objecten toe aan het scherm en maak ze doorzichtig
-    gameState.requiredText = this.add.text(50, 20, 'Required: ', {fontSize: 12, fill: '#FFF', fontFamily: 'Verdana'})
+    gameState.requiredText = this.add.text(150, 50, 'Required: ', {fontSize: 15, fill: '#FFF', fontFamily: 'Verdana'})
 
-    let reqWallet = this.add.sprite(150, 27, 'wallet').setScale(.050)
+    let reqWallet = this.add.sprite(270, 59, 'wallet').setScale(.070)
     reqWallet.alpha = 0.25;
 
-    let reqKeys = this.add.sprite(200, 28, 'keys').setScale(.035)
+    let reqKeys = this.add.sprite(330, 60, 'keys').setScale(.055)
     reqKeys.alpha = 0.25;
 
-    let reqPhone = this.add.sprite(250, 27, 'phone').setScale(.050)
+    let reqPhone = this.add.sprite(380, 60, 'phone').setScale(.070)
     reqPhone.alpha = 0.25
 
-    let reqYarn = this.add.sprite(300, 28, 'yarn').setScale(.065)
+    let reqYarn = this.add.sprite(430, 62, 'yarn').setScale(.085)
     reqYarn.alpha = 0.25
 
     // Voeg statische objecten toe
-    let wallet = this.physics.add.sprite(100, 300, 'wallet').setScale(.03)
-    let keys = this.physics.add.sprite(340, 305, 'keys').setScale(.03)
-    let phone = this.physics.add.sprite(425, 100, 'phone').setScale(.04)
-    let yarn = this.physics.add.sprite(100, 170, 'yarn').setScale(.04)
+    let wallet = this.physics.add.sprite(250, 550, 'wallet').setScale(.06)
+    let keys = this.physics.add.sprite(650, 570, 'keys').setScale(.05)
+    let phone = this.physics.add.sprite(800, 200, 'phone').setScale(.07)
+    let yarn = this.physics.add.sprite(250, 320, 'yarn').setScale(.07)
 
 
-    let door = this.physics.add.sprite(455, 190, 'door').setScale(.045)
+    let door = this.physics.add.sprite(870, 365, 'door').setScale(.065)
     door.visible = false;
     
 
@@ -99,7 +97,7 @@ class MG1 extends Phaser.Scene {
     })
 
     this.physics.add.overlap(gameState.player, door, () => {
-      if(gameState.required.includes('fill1', 'fill2', 'fill3', 'fill4')) {
+      if(gameState.required.includes('fill1') && gameState.required.includes('fill2') && gameState.required.includes('fill3') && gameState.required.includes('fill4')) {
         console.log('Exit')
         this.cameras.main.fade(1100, 255, 255, 255, false, function(camera, progress) {
           if(progress > 0.9) {
@@ -111,7 +109,7 @@ class MG1 extends Phaser.Scene {
         })
       } else {
         console.log('Not yet')
-        this.add.text(360, 20, '<---', {fontSize: 15, fill: '#FFF'})
+        this.add.text(480, 50, '<---', {fontSize: 25, fill: '#FFF'})
       }
     })
 
@@ -140,7 +138,7 @@ class MG1 extends Phaser.Scene {
   }
 
    update() {
-    const speed = 160;
+    const speed = 200;
 
     gameState.player.setVelocity(0);
 
