@@ -24,6 +24,8 @@ class MG1 extends Phaser.Scene {
   
 
    create() {
+    // Dit is belangrijk voor de game over restart
+    gameState.active = true; 
     //new
     const map = this.make.tilemap({key: 'map'});
 
@@ -133,8 +135,47 @@ class MG1 extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers('codey', {start: 0, end: 3}),
       frameRate: 5,
       repeat: -1
-    });    
+    }); 
+
+    // Countdown code   
+    this.initialTime = 3;
+
+    let cdText = this.add.text(700, 45, 'Time Left: ' + formatTime(this.initialTime), {fontSize: 30, fill: '#FFF', fontFamily: 'VT323'});
+
+    // 1 sec aan delay
+    let timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true }); 
+       
+    function formatTime(seconds){
+      // Minuten
+      var minutes = Math.floor(seconds/60);
+      // Seconden
+      var partInSeconds = seconds%60;
+      // Nullen toevoegen
+      partInSeconds = partInSeconds.toString().padStart(2,'0');
+  
+      // Returns formated time
+      return `${minutes}:${partInSeconds}`;
+  }
+  
+  function onEvent (){
+    this.initialTime -= 1; // 1 seconde eraf
+    cdText.setText('Time Left: ' + formatTime(this.initialTime));
+
+    if (this.initialTime == 0){
+        // Freeze frame
+        this.physics.pause()
+        this.anims.pauseAll()
+        
+
+        // laat de speler weten dat hij verloren heeft
+        timedEvent.remove(false);
+        let gameOverText = this.add.text(375, 300, "Game Over", {fontSize: 80, fill: '#FFF', fontFamily: 'VT323'})
+        let tryAgainText = this.add.text(330, 400, "Press Space too try again", {fontSize: 40, fill: '#FFF', fontFamily: 'VT323'})
+        cdText.setText("Time's Up!")
+    }
+}
     
+
   }
 
    update() {
@@ -173,6 +214,15 @@ class MG1 extends Phaser.Scene {
     } else {
        gameState.player.anims.play('idle', true);
    }
+     
+   // Laat de speler opnieuw starten na een Game Over scherm
+   if(gameState.cursors.space.isDown && this.initialTime == 0) {
+    this.anims.resumeAll();
+    this.scene.restart()
+  }  
+  
+
+
   }
   
 }

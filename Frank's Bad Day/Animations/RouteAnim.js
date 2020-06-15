@@ -17,7 +17,7 @@ class RouteAnim {
       },{
         y: 385,
         ease: 'linear',
-        duration: 1000
+        duration: 500
       },{
         x: 310,
         ease: 'linear',
@@ -25,16 +25,15 @@ class RouteAnim {
       },{
         y: 670,
         ease: 'linear',
-        duration: 1000,
+        duration: 1500,
       },{
         x: 400,
         ease: 'linear',
-        duration: 800,
+        duration: 250,
       },{
         x: 260,
         ease: 'linear',
-        duration: 800,
-        yoyo: true,
+        duration: 500,
       },{
         y: 560,
         ease: 'linear',
@@ -52,11 +51,11 @@ class RouteAnim {
       },{
         y: 240,
         ease: 'linear',
-        duration: 1500
+        duration: 2000
       },{
         x: 530,
         ease: 'linear',
-        duration: 1000
+        duration: 500
       },{
         y: 380,
         ease: 'linear',
@@ -80,15 +79,15 @@ class RouteAnim {
       },{
         y: 380,
         ease: 'linear',
-        duration: 1000
+        duration: 750
       },{
         x: 565,
         ease: 'linear',
-        duration: 1000
+        duration: 750
       },{
         y: 560,
         ease: 'linear',
-        duration: 1000
+        duration: 750
       },{
         x: 505,
         ease: 'linear',
@@ -98,27 +97,27 @@ class RouteAnim {
       this.runRoutes.push([{
         x: 450,
         ease: 'linear',
-        duration: 500
+        duration: 250
       },{
         y: 390,
         ease: 'linear',
-        duration: 1000
+        duration: 600
       },{
         x: 530,
         ease: 'linear',
-        duration: 1000
+        duration: 600
       },{
         y: 240,
         ease: 'linear',
-        duration: 1000
+        duration: 500
       },{
         x: 310,
         ease: 'linear',
-        duration: 2000
+        duration: 1500
       },{
         y: 390,
         ease: 'linear',
-        duration: 1500
+        duration: 750
       },{
         x: 670,
         ease: 'linear',

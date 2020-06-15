@@ -14,7 +14,7 @@ class MG3 extends Phaser.Scene {
         this.routes = new RouteAnim() 
 
         // Text voor het doel van de speler
-        this.add.text(385, 35, "Get him! Quick!", {fontSize: 40, fontFamily: "VT323"})
+        let goalText = this.add.text(385, 35, "Get him! Quick!", {fontSize: 40, fontFamily: "VT323"})
 
         // Map maken
         const map3 = this.make.tilemap({key: 'map3'});

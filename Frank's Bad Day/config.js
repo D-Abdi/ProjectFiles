@@ -9,7 +9,7 @@ const config = {
         debug: true,
       }
     },
-    scene: [Title, MG1, MG2, MG3],
+    scene: [MG3, MG2, MG1, Title],
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH
