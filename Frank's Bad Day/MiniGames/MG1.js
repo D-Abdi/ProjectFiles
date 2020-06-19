@@ -1,9 +1,3 @@
-
-let gameState = {
-  required: [],
-  enemy: [],
-}
-
 class MG1 extends Phaser.Scene {
   constructor() {
     super({ key: 'MG1'})
@@ -29,11 +23,12 @@ class MG1 extends Phaser.Scene {
     //new
     const map = this.make.tilemap({key: 'map'});
 
-    const tileset = map.addTilesetImage('RPGmap', 'tiles')
-
-    const worldLayer = map.createStaticLayer('Blocked', tileset, 50, 20).setScale(1.8);
-    const belowLayer = map.createStaticLayer('UnBlocked', tileset, 50, 20).setScale(1.8);
+    const tileset = map.addTilesetImage('rpg', 'tiles')
     
+    map.createStaticLayer('Carpet', tileset, 100, 40)
+    map.createStaticLayer('Floor', tileset, 100, 40)
+    const worldLayer = map.createStaticLayer('Blocked', tileset, 100, 40)
+    const belowLayer = map.createStaticLayer('UnBlocked', tileset, 100, 40)
 
     worldLayer.setCollisionByProperty({ collides: true });
 
@@ -44,29 +39,42 @@ class MG1 extends Phaser.Scene {
     this.physics.add.collider(gameState.player, worldLayer)
 
     // Voeg vereiste objecten toe aan het scherm en maak ze doorzichtig
-    gameState.requiredText = this.add.text(150, 35, 'Required: ', {fontSize: 40, fill: '#FFF', fontFamily: 'VT323'})
+    gameState.requiredText = this.add.text(120, 15, 'Required: ', {fontSize: 40, fill: '#FFF', fontFamily: 'VT323'})
 
-    let reqWallet = this.add.sprite(350, 59, 'wallet').setScale(.080)
+    let reqWallet = this.add.sprite(320, 39, 'wallet').setScale(.080)
     reqWallet.alpha = 0.25;
 
-    let reqKeys = this.add.sprite(430, 60, 'keys').setScale(.065)
+    let reqKeys = this.add.sprite(400, 40, 'keys').setScale(.065)
     reqKeys.alpha = 0.25;
 
-    let reqPhone = this.add.sprite(510, 60, 'phone').setScale(.080)
+    let reqPhone = this.add.sprite(480, 40, 'phone').setScale(.080)
     reqPhone.alpha = 0.25
 
-    let reqYarn = this.add.sprite(590, 62, 'yarn').setScale(.095)
+    let reqYarn = this.add.sprite(560, 42, 'yarn').setScale(.095)
     reqYarn.alpha = 0.25
 
     // Voeg statische objecten toe
     let wallet = this.physics.add.sprite(250, 550, 'wallet').setScale(.06)
-    let keys = this.physics.add.sprite(650, 570, 'keys').setScale(.05)
-    let phone = this.physics.add.sprite(800, 200, 'phone').setScale(.07)
-    let yarn = this.physics.add.sprite(250, 320, 'yarn').setScale(.07)
+    let keys = this.physics.add.sprite(650, 620, 'keys').setScale(.05)
+    let phone = this.physics.add.sprite(700, 200, 'phone').setScale(.07)
+    let yarn = this.physics.add.sprite(250, 270, 'yarn').setScale(.07)
 
 
-    let door = this.physics.add.sprite(870, 365, 'door').setScale(.065)
+    let door = this.physics.add.sprite(740, 312, 'door').setScale(.065)
     door.visible = false;
+
+    // Laat de game objective zien
+    let objText = this.add.text(350,250, "Pick up your stuff\nand leave the house", {fontSize: 40, fontFamily: "VT323"})
+  
+    // fade hem na tonen
+    this.tweens.add({
+      targets: objText,
+      alpha: 0,
+      delay: 2000,
+      duration: 1500,
+      repeat: 0,
+      yoyo: false
+    })
     
 
     // Collision tussen speler en objecten
@@ -111,7 +119,7 @@ class MG1 extends Phaser.Scene {
         })
       } else {
         console.log('Not yet')
-        this.add.text(650, 50, '<---', {fontSize: 25, fill: '#FFF'})
+        this.add.text(630, 25, '<---', {fontSize: 25, fill: '#FFF'})
       }
     })
 
@@ -138,9 +146,9 @@ class MG1 extends Phaser.Scene {
     }); 
 
     // Countdown code   
-    this.initialTime = 3;
+    this.initialTime = 30;
 
-    let cdText = this.add.text(700, 45, 'Time Left: ' + formatTime(this.initialTime), {fontSize: 30, fill: '#FFF', fontFamily: 'VT323'});
+    let cdText = this.add.text(730, 25, 'Time Left: ' + formatTime(this.initialTime), {fontSize: 30, fill: '#FFF', fontFamily: 'VT323'});
 
     // 1 sec aan delay
     let timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true }); 
@@ -214,6 +222,11 @@ class MG1 extends Phaser.Scene {
     } else {
        gameState.player.anims.play('idle', true);
    }
+
+    // Laat zien waar de uitgang is als alles is opgepakt
+    if(gameState.required.includes('fill1') && gameState.required.includes('fill2') && gameState.required.includes('fill3') && gameState.required.includes('fill4')) {
+      this.add.text(800, 300, '<-- GO!', {fontSize: 40, fill: '#FFF', fontFamily: "VT323"})
+    }   
      
    // Laat de speler opnieuw starten na een Game Over scherm
    if(gameState.cursors.space.isDown && this.initialTime == 0) {

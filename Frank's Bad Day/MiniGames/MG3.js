@@ -1,3 +1,4 @@
+let text; 
 class MG3 extends Phaser.Scene {
     constructor() {
       super({ key: 'MG3'})
@@ -8,29 +9,29 @@ class MG3 extends Phaser.Scene {
         this.load.spritesheet('snowman', 'assets/snowman.png', { frameWidth: 50, frameHeight: 70 });
         this.load.image('tiles3', 'assets/RPGmap.png');
         this.load.tilemapTiledJSON('map3', 'assets/miniGame3.json');
+        this.load.image('door', 'assets/door.png')
     }
     create() {
         // Maak een class aan voor de animaties
         this.routes = new RouteAnim() 
 
-        // Text voor het doel van de speler
-        let goalText = this.add.text(385, 35, "Get him! Quick!", {fontSize: 40, fontFamily: "VT323"})
-
         // Map maken
         const map3 = this.make.tilemap({key: 'map3'});
 
-        const tileset3 = map3.addTilesetImage('RPGmap', 'tiles3')
+        const tileset3 = map3.addTilesetImage('rpg', 'tiles3')
         
+        map3.createStaticLayer('Floor', tileset3, 125, 40)
+        map3.createStaticLayer('Carpet', tileset3, 125, 40)
+        const worldLayer3 = map3.createStaticLayer('Blocked', tileset3, 125, 40)
+        const belowLayer3 = map3.createStaticLayer('UnBlocked', tileset3, 125, 40)
         
-        const background3 = map3.createStaticLayer('BackGround', tileset3, 125, 30).setScale(1.5)
-        const worldLayer3 = map3.createStaticLayer('Blocked', tileset3, 125, 30).setScale(1.5)
-        const belowLayer3 = map3.createStaticLayer('UnBlocked', tileset3, 125, 30).setScale(1.5)
 
         worldLayer3.setCollisionByProperty({ collides: true });
         
         
         // Speler aanmaken
-        gameState.player = this.physics.add.sprite(505, 620, 'codey').setScale(.4)
+        gameState.player = this.physics.add.sprite(450, 670, 'codey').setScale(.4)
+
         gameState.player.setCollideWorldBounds(true);
         gameState.cursors = this.input.keyboard.createCursorKeys();
 
@@ -54,13 +55,12 @@ class MG3 extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('codey', {start: 0, end: 3}),
             frameRate: 5,
             repeat: -1
-          });  
-          
-        
+          }); 
+                
         this.physics.add.collider(gameState.player, worldLayer3)
 
         // Enemy toevoegen 
-        gameState.enemy = this.physics.add.sprite(505, 560, 'snowman').setScale(.4)
+        gameState.enemy = this.physics.add.sprite(495, 605, 'snowman').setScale(.4)
 
         // Sneeuwman animaties
         this.anims.create({
@@ -69,6 +69,19 @@ class MG3 extends Phaser.Scene {
           frameRate: 4,
           repeat: -1
         });
+
+        // Laat de game objective zien
+        let objText = this.add.text(325, 300, "Get Him! Quick!", {fontSize: 70, fontFamily: "VT323",})
+  
+        // fade hem na tonen
+        this.tweens.add({
+          targets: objText,
+          alpha: 0,
+          delay: 2500,
+          duration: 1500,
+          repeat: 0,
+          yoyo: false
+        })    
 
         gameState.enemy.anims.play('snowmanAlert', true);
 
@@ -92,6 +105,17 @@ class MG3 extends Phaser.Scene {
           }
         )})
 
+        // Lose condition maken
+        let door = this.physics.add.sprite(495, 700, 'door').setScale(.075)
+        door.visible = false;
+
+        this.physics.add.overlap(gameState.enemy, door, () => {
+          this.physics.pause()
+          this.anims.pauseAll()
+
+          this.add.text(375, 300, "He Escaped!", {fontSize: 80, fill: '#FFF', fontFamily: 'VT323'})
+          this.add.text(330, 400, "Press Space too try again", {fontSize: 40, fill: '#FFF', fontFamily: 'VT323'})                   
+        })        
     }
 
     update() {
@@ -129,6 +153,11 @@ class MG3 extends Phaser.Scene {
            gameState.player.anims.play('run', true);
         } else {
            gameState.player.anims.play('idle', true);
+       }
+
+       if(gameState.cursors.space.isDown) {
+        this.anims.resumeAll();
+        this.scene.restart()
        }
     } 
 }

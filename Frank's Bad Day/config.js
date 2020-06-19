@@ -9,7 +9,7 @@ const config = {
         debug: true,
       }
     },
-    scene: [MG3, MG2, MG1, Title],
+    scene: [MG3, Title, MG1, MG2],
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH
@@ -17,3 +17,10 @@ const config = {
   };
   
   const game = new Phaser.Game(config);
+
+  let gameState = {
+    required: [],
+    enemy: [],
+  }
+  
+  let cursors;
